@@ -7,12 +7,21 @@ import os
 educationlist=[]
 workexperiencelist=[]
 certlist=[]
+abtme = []
 
 def clearscreen():
     if os.name == "nt":
         os.system("cls")
     elif os.name == "mac" or os.name == "posix":
         os.system("clear")
+
+def abtmefun():
+    with open("Textfiles/abtme.txt", "r") as file:
+    
+        raw_lines = file.readlines()
+
+        for i in raw_lines:
+            abtme.append(i.replace('\n',''))
 
 def readfromfileeducation():
     with open("Textfiles/education.txt","r") as file:
@@ -69,22 +78,6 @@ def readfromfilecert():
                 certlist.append(certsearch(row[0],row[1],row[2]))
 
 
-def scrolling(list):
-    while userchoice != "m":
-        print("Enter 'N' for Next Item, 'P' for Previous Item or 'M' for Main Menu:")
-        userchoice = input("Please enter N/P/M : ").lower()
-        if userchoice == 'n':
-            count += 1
-            if count == len(list):
-                count = 0
-        if userchoice == 'p':
-            count -= 1
-            if count < 0:
-                count = 0
-        if userchoice == 'm':
-            mainmenu()
-
-
 def mainmenu():
     clearscreen()
     print("******** Main Menu ********")
@@ -93,6 +86,16 @@ def mainmenu():
     print("3. Work Experiences")
     print("4. Other Certiications")
     x=input("Please input your selction: ")
+    if x == "1":
+        printabtme()
+        userchoice = ""
+        while userchoice != "exit":
+            userchoice = input("Please enter M for Main Menu or type exit to exit the programe : ").lower
+            if userchoice == "exit":
+                exit
+            else:
+                mainmenu()    
+                
     if x == "2":
         print(educationlist[0])
         count = 0
@@ -187,6 +190,13 @@ def certfun(certifications:certsearch):
     print("{:15s} : {:55}".format("Date of Certification", certifications.getcertyear()))
     print("{0:=^70s}".format(""))
 
+def printabtme():
+    clearscreen()
+    print("****** About Me ******")
+    for i in abtme:
+        print(i)
+
+abtmefun()
 readfromfileeducation()
 readfromfileworkexp()
 readfromfilecert()
